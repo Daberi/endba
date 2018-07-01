@@ -11,6 +11,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * The WordFreq class processes input text files, creates term-frequency and
+ * outputs them to a file.
+ *
+ * @author redae
+ */
 public class WordFreq {
 
     private Map<String, Integer> map;
@@ -21,7 +27,8 @@ public class WordFreq {
     }
 
     /**
-     * Reads each input text file and creates vocabulary with frequency of each word.
+     * Reads text files and creates vocabulary with frequency of each word.
+     *
      * @param files array of filenames
      * @param delimiter used to split text to tokens
      */
@@ -54,6 +61,7 @@ public class WordFreq {
 
     /**
      * Writes the contents of hashmap to a file.
+     *
      * @param outFile name of output file
      */
     public void writeMap(String outFile) {
