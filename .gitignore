@@ -1,0 +1,10 @@
+# Compiled class files
+*.class
+
+# Packages
+*.jar
+
+# Files
+*.txt
+*.doc
+*.docx
