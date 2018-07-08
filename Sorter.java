@@ -7,13 +7,12 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 /**
- * The Sorter class sorts Geez text in ascending/descending order.
+ * The Sorter class sorts Geez text in ascending or descending order.
  *
  * @author redae
  */
 public class Sorter {
 
-    private MultiValuedMap<String, String> map;
     private final String[] orderdChars = {
         "ሀ", "ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ",
         "ለ", "ሉ", "ሊ", "ላ", "ሌ", "ል", "ሎ",
@@ -54,17 +53,12 @@ public class Sorter {
         "ፐ", "ፑ", "ፒ", "ፓ", "ፔ", "ፕ", "ፖ"
     };
 
+    public enum sortOrders {
+        ASC, DESC
+    };
+
     public Sorter() {
-        map = new ArrayListValuedHashMap<>();
 
-    }
-
-    public MultiValuedMap<String, String> getMap() {
-        return map;
-    }
-
-    public void setMap(MultiValuedMap<String, String> map) {
-        this.map = map;
     }
 
     /**
@@ -73,7 +67,7 @@ public class Sorter {
      * @param str string of words
      * @return integer representation of the string
      */
-    public String StringToInteger(String str) {
+    public String stringToInteger(String str) {
         String ints = "";
         List<String> list;
 
@@ -91,38 +85,38 @@ public class Sorter {
     }
 
     /**
-     * Sorts strings in ascending order.
+     * Sorts strings in ascending or descending order.
      *
-     * @param map multivalued map of strings and their integer representations
-     * @return list of strings sorted in ascending order
+     * @param strs list of strings to be sorted
+     * @param sortOrder ASC or DESC
+     * @return list of strings sorted in sortOrder
      */
-    public List<String> sortAscending(MultiValuedMap<String, String> map) {
-        List<String> keys = new ArrayList<>(map.keySet());
+    public List<String> sort(List<String> strs, String sortOrder) {
+        MultiValuedMap<String, String> mMap = new ArrayListValuedHashMap<>();
         List<String> values = new ArrayList<>();
 
-        Collections.sort(keys);
+        strs.forEach((s) -> {
+            mMap.put(stringToInteger(s), s);
+        });
 
-        for (String k : keys) {
-            values.addAll(map.get(k));
-        }
+        List<String> keys = new ArrayList<>(mMap.keySet());
 
-        return values;
-    }
+        if (sortOrder.equalsIgnoreCase(sortOrders.ASC.name())) {
+            Collections.sort(keys);
 
-    /**
-     * Sorts strings in descending order.
-     *
-     * @param map multivalued map of strings and their integer representations
-     * @return list of strings sorted in descending order
-     */
-    public ArrayList<String> sortDescending(MultiValuedMap<String, String> map) {
-        ArrayList<String> keys = new ArrayList<>(map.keySet());
-        ArrayList<String> values = new ArrayList<>();
+            keys.forEach((k) -> {
+                values.addAll(mMap.get(k));
+            });
+        } else if (sortOrder.equalsIgnoreCase(sortOrders.DESC.name())) {
+            Collections.sort(keys, Collections.reverseOrder());
 
-        Collections.sort(keys, Collections.reverseOrder());
-
-        for (String k : keys) {
-            values.addAll(map.get(k));
+            keys.forEach((k) -> {
+                values.addAll(mMap.get(k));
+            });
+        } else {
+            keys.forEach((k) -> {
+                values.addAll(mMap.get(k));
+            });
         }
 
         return values;
