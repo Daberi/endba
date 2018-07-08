@@ -31,8 +31,9 @@ public class WordFreq {
      *
      * @param files array of filenames
      * @param delimiter used to split text to tokens
+     * @return map of words and their frequencies
      */
-    public void readFiles(String[] files, String delimiter) {
+    public Map<String, Integer> readFiles(String[] files, String delimiter) {
         for (String f : files) {
             if (Files.exists(Paths.get(f))) {
                 try (BufferedReader br = Files.newBufferedReader(Paths.get(f), charset)) {
@@ -54,17 +55,19 @@ public class WordFreq {
                 }
             } else {
                 System.out.println("File not found.");
-                return;
+                return null;
             }
         }
+        return map;
     }
 
     /**
-     * Writes the contents of hashmap to a file.
+     * Writes the contents of the map to a file.
      *
+     * @param map term-frequency map
      * @param outFile name of output file
      */
-    public void writeMap(String outFile) {
+    public void writeMap(Map<String, Integer> map, String outFile) {
 
         Path path = Paths.get(outFile);
 
